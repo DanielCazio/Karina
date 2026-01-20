@@ -167,7 +167,7 @@ Blend Modes können sowohl auf das Haupt-Canvas als auch auf ein MiniCanvas ange
 
 #### Aufgabe 
 
-- Erzeuge einen MiniCanvas und wende einen festen Blend Mode darauf an (z. B. `MULTIPLY` oder `ADD`).
+- Erzeuge einen MiniCanvas und wende einen festen Blend Mode darauf an 
 
 > **Hinweis**  
 > Ein Blend Mode könnte z. B. `BLEND`, `ADD`, `MULTIPLY`, `EXCLUSION` enthalten.
@@ -194,8 +194,6 @@ function setup() {
   tint(250, 160);
   image(img, 0, 0);
   noTint();
-
-  //for (let i=0; i<50; i++) {
     
     // auszuschneidenden Bereich (miniCanvas) definieren
     let sw = 150; // Breite 
@@ -221,7 +219,6 @@ function setup() {
     stroke(100);
     noFill();
     rect(x, y, sw, sh); 
-    //}
 }
 ```
 </details>
@@ -232,6 +229,9 @@ Nun erweitern wir das Prinzip:
 
 - Erstelle ein Array mit mehreren Blend Modes;
 - Wähle für jedes Fragment einen zufälligen Blend Mode und wende ihn auf den jeweiligen MiniCanvas an.
+
+> **Hinweis**  
+> `blendMode()` beeinflusst immer alle Zeichenbefehle, die danach ausgeführt werden. Damit jedes Bildfragment tatsächlich einen eigenen zufälligen Blend Mode erhält, wird `blendMode()` im MiniCanvas zweimal gesetzt: einmal zum Zurücksetzen und einmal direkt vor dem Zeichnen des Fragments.
 
 <details>
 <summary> Musterlösung</summary>
@@ -297,7 +297,7 @@ function setup() {
 
 In diesem Tutorial wurde gezeigt, wie sich Bilder mithilfe von Offscreen-Canvas und Blend Modes fragmentieren und neu zusammensetzen lassen.
 
-Mögliche Beispiel: Verzerrte Fragmente
+Mögliches für eine Erweiterung: Verzerrte Fragmente
 
 - Statt den Bildausschnitt 1:1 zu kopieren, kann die Quellgröße bewusst verkleinert werden. Dadurch wird der Bildausschnitt im MiniCanvas leicht vergrößert dargestellt.
 
@@ -308,8 +308,7 @@ miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw - 30, sh - 30);
 Andere mögliche Erweiterungen:
 
 - Wechsel der Bilder über Tastatureingaben statt Zufall
-- Interaktive Neugenerierung der Fragmente mit der Maus oder mit Tasten
+- Interaktive Neugenerierung der Fragmente mit der Maus 
 - Animation der Fragmente im `draw()`-Modus
-- Eigene Parameter (Anzahl, Größe, Blend Modes) über Slider steuern
 
 Das Projekt kann als Ausgangspunkt für eigene experimentelle Bildarbeiten dienen und flexibel weiterentwickelt werden.
