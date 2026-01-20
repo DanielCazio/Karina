@@ -1,4 +1,4 @@
-Bildfragmente & Blendmodes mit p5.js
+# Bildfragmente & Blend Mode 
 
 ## Einführung
 
@@ -6,23 +6,18 @@ Bildfragmente & Blendmodes mit p5.js
 
 Dieses Tutorial baut auf Inhalten auf, die im Kurs bereits behandelt wurden. Hilfreich sind insbesondere:
 
-- **Basics**  
-- **Arbeiten mit Bildern**
-- **Arrays**
 - **Schleifen**
+- **Arrays**
+- **Tipps und Tricks**
 
-Zur Vertiefung der hier genutzten Blend Modes empfiehlt sich außerdem ein Blick in die offizielle Referenz:
+Zur Vertiefung der hier genutzten **Blend Modes** empfiehlt sich außerdem ein Blick in die offizielle Referenz:
 - https://p5js.org/reference/p5/blendMode/
-
----
 
 ### Projektidee
 
 In diesem Projekt erzeugen wir eine experimentelle Bildkomposition aus Fragmenten eines Fotos. Ein zufällig gewähltes Hintergrundbild wird in viele kleine Ausschnitte zerlegt, leicht verschoben und mit unterschiedlichen Blend Modes erneut auf die Leinwand gesetzt.
 
 Das Ergebnis erinnert an eine digitale Collage, bei der das Originalbild sich visuell auflöst, aber noch erkennbar bleibt.
-
----
 
 ### Lernziele
 
@@ -60,17 +55,15 @@ function setup() {
 - Erstelle nun ein Array aus mindestens drei Bildern;
 - Wähle später ein Bild zufällig aus dem Array aus.
 
-<details>
-<summary> Hinweis</summary>
-Nutze `loadImage()` und `random()`.
-</details>
+> **Hinweis**  
+> Dateinamen sollten ausschließlich aus Kleinbuchstaben bestehen. Großbuchstaben oder Sonderzeichen können dazu führen, dass Bilder nicht geladen werden.
 
 <details>
 <summary> Musterlösung</summary>
 
 ```js
-let imgs = [];
 let img;
+let imgs = [];
 
 function preload() {
   imgs.push(loadImage('./pics/heidelbeere.png'));
@@ -79,6 +72,7 @@ function preload() {
 }
 
 function setup() {
+// zufälliges Bild für den Hintergrund
   img = random(imgs);
   createCanvas(img.width, img.height);
   image(img, 0, 0);
@@ -86,10 +80,6 @@ function setup() {
 ```
 </details>
 
-> **Hinweis**  
-> Dateinamen sollten ausschließlich aus Kleinbuchstaben bestehen. Großbuchstaben oder Sonderzeichen können dazu führen, dass Bilder nicht geladen werden.
-
----
 
 ### Ausschnitt 2: Offscreen-Canvas (MiniCanvas)
 
@@ -97,12 +87,14 @@ In diesem Projekt arbeiten wir nicht nur auf dem Haupt-Canvas, sondern erzeugen 
 
 ```js
 let miniCanvas = createGraphics(sw, sh);
+
 ```
 
 Nun kopieren wir einen Ausschnitt des Bildes auf den MiniCanvas:
 
 ```js
-miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw - 30, sh - 30);
+miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw, sh);
+
 ```
 
 #### Aufgabe
@@ -110,12 +102,61 @@ miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw - 30, sh - 30);
 - Erstelle mehrere MiniCanvas (Diese Fragmente werden im nächsten Schritt visuell weiter verändert);
 - Platziere sie versetzt auf dem Haupt-Canvas, sodass das Originalbild als Hintergrund sichtbar bleibt.
 
-<details>
-<summary> Hinweis</summary>
-Nutze eine `for`-Schleife und zufällige Koordinaten für `sx` und `sy`.
-</details>
+> **Hinweis**  
+> Nutze eine `for`-Schleife und zufällige Koordinaten für `sx` und `sy`.
+> `tint()` kann genutzt werden, um den Hintergrund leicht transparent darzustellen, sodass sich die MiniCanvas visuell besser abheben.
+> Zur besseren Übersicht können die einzelnen MiniCanvas mit einem einfachen Rahmen `rect()` visualisiert werden.
 
----
+<details>
+<summary> Musterlösung</summary>
+
+```js
+let img;
+let imgs = [];
+
+function preload() {
+  imgs.push(loadImage('./pics/heidelbeere.png'));
+  imgs.push(loadImage('./pics/granatapfel.png'));
+  imgs.push(loadImage('./pics/zitronen.png'));
+}
+
+function setup() {
+// zufälliges Bild für den Hintergrund
+  img = random(imgs);
+  createCanvas(img.width, img.height);
+
+  // Hintergrund  
+  tint(250, 160);
+  image(img, 0, 0);
+  noTint();
+
+  for (let i=0; i<50; i++) {
+    
+    // auszuschneidenden Bereich (miniCanvas) definieren
+    let sw = 150; // Breite 
+    let sh = 150; // Höhe 
+    
+    let sx = random(0, width - sw); // Quelle X
+    let sy = random(0, height - sh);// Quelle Y
+    
+    let x = sx + random(-10,10); // Ziel X
+    let y = sy + random(-10,10); // Ziel Y
+
+    // Offscreen-Fragment
+    let miniCanvas = createGraphics(sw, sh);
+
+    // Bildausschnitt in miniCanvas
+    miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw, sh);  
+    image(miniCanvas, x, y);
+
+    // Rahmen 
+    stroke(100);
+    noFill();
+    rect(x, y, sw, sh); 
+    }
+}
+```
+</details>
 
 ### Ausschnitt 3: Blend Mode
 
@@ -126,38 +167,13 @@ Blend Modes können sowohl auf das Haupt-Canvas als auch auf ein MiniCanvas ange
 
 #### Aufgabe 
 
-- Erzeuge einen MiniCanvas
-- Wende einen festen Blend Mode darauf an (z. B. `MULTIPLY` oder `ADD`)
+- Erzeuge einen MiniCanvas und wende einen festen Blend Mode darauf an (z. B. `MULTIPLY` oder `ADD`).
 
----
-
-#### Hauptaufgabe
-
-Nun erweitern wir das Prinzip:
-
-- Erstelle ein Array mit mehreren Blend Modes;
-- Wähle für jedes Fragment einen zufälligen Blend Mode (z. B. MULTIPLY oder ADD) und wende ihn auf den jeweiligen MiniCanvas an.
-
-<details>
-<summary> Hinweis</summary>
-Ein Array könnte z. B. `BLEND`, `ADD`, `MULTIPLY`, `EXCLUSION` enthalten.
-</details>
+> **Hinweis**  
+> Ein Blend Mode könnte z. B. `BLEND`, `ADD`, `MULTIPLY`, `EXCLUSION` enthalten.
 
 <details>
 <summary> Musterlösung</summary>
-
-```js
-let filter = [BLEND, ADD, DARKEST, EXCLUSION, MULTIPLY, HARD_LIGHT];
-miniCanvas.blendMode(random(filter));
-```
-</details>
-
----
-
-## 3. Musterlösung 
-
-<details>
-<summary> Vollständige Musterlösung</summary>
 
 ```js
 let img;
@@ -170,52 +186,130 @@ function preload() {
 }
 
 function setup() {
+// zufälliges Bild für den Hintergrund
   img = random(imgs);
   createCanvas(img.width, img.height);
 
-  let filter = [BLEND, ADD, DARKEST, EXCLUSION, MULTIPLY, HARD_LIGHT];
-
+  // Hintergrund  
   tint(250, 160);
   image(img, 0, 0);
   noTint();
 
-  for (let i = 0; i < 50; i++) {
-    let sw = 150;
-    let sh = 150;
+  //for (let i=0; i<50; i++) {
+    
+    // auszuschneidenden Bereich (miniCanvas) definieren
+    let sw = 150; // Breite 
+    let sh = 150; // Höhe 
+    
+    let sx = random(0, width - sw); // Quelle X
+    let sy = random(0, height - sh);// Quelle Y
+    
+    let x = sx + random(-10,10); // Ziel X
+    let y = sy + random(-10,10); // Ziel Y
 
-    let sx = random(0, width - sw);
-    let sy = random(0, height - sh);
-
-    let x = sx + random(-10, 10);
-    let y = sy + random(-10, 10);
-
+    // Offscreen-Fragment
     let miniCanvas = createGraphics(sw, sh);
-    miniCanvas.blendMode(random(filter));
-    miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw - 30, sh - 30);
 
+    // fester Blend Mode
+    miniCanvas.blendMode(MULTIPLY);
+
+    // Bildausschnitt in miniCanvas
+    miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw, sh);  
     image(miniCanvas, x, y);
 
+    // Rahmen 
     stroke(100);
     noFill();
-    rect(x, y, sw, sh);
-  }
+    rect(x, y, sw, sh); 
+    //}
+}
+```
+</details>
+
+#### Hauptaufgabe
+
+Nun erweitern wir das Prinzip:
+
+- Erstelle ein Array mit mehreren Blend Modes;
+- Wähle für jedes Fragment einen zufälligen Blend Mode und wende ihn auf den jeweiligen MiniCanvas an.
+
+<details>
+<summary> Musterlösung</summary>
+
+```js
+let img;
+let imgs = [];
+
+function preload() {
+  imgs.push(loadImage('./pics/heidelbeere.png'));
+  imgs.push(loadImage('./pics/granatapfel.png'));
+  imgs.push(loadImage('./pics/zitronen.png'));
+}
+
+function setup() {
+// zufälliges Bild für den Hintergrund
+  img = random(imgs);
+  createCanvas(img.width, img.height);
+
+    let filter = [BLEND, ADD, DARKEST, EXCLUSION, MULTIPLY, HARD_LIGHT];
+
+  // Hintergrund  
+  tint(250, 160);
+  image(img, 0, 0);
+  noTint();
+
+  for (let i=0; i<50; i++) {
+    
+    // auszuschneidenden Bereich (miniCanvas) definieren
+    let sw = 150; // Breite 
+    let sh = 150; // Höhe 
+    
+    let sx = random(0, width - sw); // Quelle X
+    let sy = random(0, height - sh);// Quelle Y
+    
+    let x = sx + random(-10,10); // Ziel X
+    let y = sy + random(-10,10); // Ziel Y
+
+    // Offscreen-Fragment
+    let miniCanvas = createGraphics(sw, sh);
+
+    //auf BLEND zurücksetzen
+    miniCanvas.blendMode( random(filter) );
+
+    // Bildausschnitt in miniCanvas
+    miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw, sh);  
+    miniCanvas.blendMode(random(filter)); // zufälligen BlendMode für miniCanvas
+    miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw, sh);  
+    image(miniCanvas, x, y);
+   
+     // Rahmen 
+    stroke(100);
+    noFill();
+    rect(x, y, sw, sh); 
+     }
 }
 ```
 </details>
 
 ---
 
-## 4. Fazit & Ausblick
+## Fazit & Ausblick
 
 In diesem Tutorial wurde gezeigt, wie sich Bilder mithilfe von Offscreen-Canvas und Blend Modes fragmentieren und neu zusammensetzen lassen.
 
-Mögliche Erweiterungen:
+Mögliche Beispiel: Verzerrte Fragmente
+
+- Statt den Bildausschnitt 1:1 zu kopieren, kann die Quellgröße bewusst verkleinert werden. Dadurch wird der Bildausschnitt im MiniCanvas leicht vergrößert dargestellt.
+
+```js
+miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw - 30, sh - 30);
+```
+
+Andere mögliche Erweiterungen:
 
 - Wechsel der Bilder über Tastatureingaben statt Zufall
-- Interaktive Neugenerierung der Fragmente per Mausklick
+- Interaktive Neugenerierung der Fragmente mit der Maus oder mit Tasten
 - Animation der Fragmente im `draw()`-Modus
 - Eigene Parameter (Anzahl, Größe, Blend Modes) über Slider steuern
 
 Das Projekt kann als Ausgangspunkt für eigene experimentelle Bildarbeiten dienen und flexibel weiterentwickelt werden.
-
----
