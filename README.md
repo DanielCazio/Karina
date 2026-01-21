@@ -6,6 +6,25 @@
 
 Dieses Tutorial baut auf Inhalten auf, die im Kurs bereits behandelt wurden. Hilfreich sind insbesondere:
 
+    <div class="panel-body">
+<span class="label label-warning">empfohlen</span>
+<ul class="list-group">
+  <li class="list-group-item list-group-item-warning">
+    <a href="../../01_Zeichenbefehle.ipynb">Zeichenbefehle</a>
+    <a href="../../02_Kontur_Fuellung_Farben.ipynb">Kontur/Fuellung/Farben</a>
+  </li>
+  <li class="list-group-item list-group-item-warning">
+    <a href="../../03_Basics Datentypen und Variablen.ipynb">Datentypen</a>
+    <a href="../../07_Basics Schleifen.ipynb">for/while</a>
+  </li>
+  <li class="list-group-item list-group-item-warning">
+    <a href="../../09_Basics Arrays.ipynb">Arrays</a>
+  </li>
+</ul>
+        </div>
+    </div>
+</div>
+
 - **Schleifen**
 - **Arrays**
 - **Tipps und Tricks**
@@ -103,49 +122,10 @@ miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw, sh);
 - Platziere sie versetzt auf dem Haupt-Canvas, sodass das Originalbild als Hintergrund sichtbar bleibt.
 
 > **Hinweis**  
-> Nutze eine `for`-Schleife für die Erstellung mehrere MiniCanvas.
+> Nutze eine `for`-Schleife und zufällige Koordinaten für `sx` und `sy`.
 > `tint()` kann genutzt werden, um den Hintergrund leicht transparent darzustellen, sodass sich die MiniCanvas visuell besser abheben.
+> Zur besseren Übersicht können die einzelnen MiniCanvas mit einem einfachen Rahmen `rect()` visualisiert werden.
 
-```js
-let img;
-let imgs = []; 
-
-function preload() {
-  imgs.push(loadImage('./pics/heidelbeere.png'));
-  imgs.push(loadImage('./pics/granatapfel.png'));
-  imgs.push(loadImage('./pics/zitronen.png'));
-}
-
-function setup() {
-  // zufälliges Bild für den Hintergrund
-  img = random(imgs); 
-  createCanvas(img.width, img.height);
-  image(img, 0, 0);
-  
-  // auszuschneidenden Bereich (miniCanvas) definieren
-  let sw = 150; // Breite 
-  let sh = 150; // Höhe 
-    
-  let sx = random(0, width - sw); // Quelle X
-  let sy = random(0, height - sh);// Quelle Y
-    
-  let x = sx + random(-10,10); // Ziel X
-  let y = sy + random(-10,10); // Ziel Y
-    
-  // Offscreen-Fragment
-  let miniCanvas = createGraphics(sw, sh);
-
-  // Bildausschnitt in miniCanvas
-  miniCanvas.image(img, 0, 0, sw, sh, sx, sy, sw, sh);  
-  image(miniCanvas, x, y);
-    
-  // Zur besseren Übersicht können die einzelnen MiniCanvas 
-  // mit einem einfachen Rahmen  visualisiert werden
-  stroke(100);
-  noFill();
-  rect(x, y, sw, sh); 
-}
-```
 <details>
 <summary> Musterlösung</summary>
 
@@ -164,7 +144,7 @@ function setup() {
   img = random(imgs);
   createCanvas(img.width, img.height);
 
-// Hintergrund  
+  // Hintergrund  
   tint(250, 160);
   image(img, 0, 0);
   noTint();
