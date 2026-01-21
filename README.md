@@ -16,11 +16,13 @@
   </li>
   <li class="list-group-item list-group-item-warning">
     <a href="./03_Basics Datentypen und Variablen.ipynb">Datentypen</a>
-    <a href="./04_Basics Bedingte Anweisungen.ipynb">if/else</a>
     <a href="./07_Basics Schleifen.ipynb">for/while</a>
   </li>
   <li class="list-group-item list-group-item-info">
     <a href="../../09_Basics Arrays.ipynb">Arrays</a>
+  </li>
+  <li class="list-group-item list-group-item-info">
+   <a href="../../16_TippsTricks.ipynb">TippsTricks</a>
   </li>
 </ul>
         </div>
@@ -45,8 +47,6 @@ Nach diesem Tutorial ist es möglich:
 - mehrere Bilder vorzuladen und zufällig auszuwählen
 - Bildausschnitte gezielt zu kopieren
 - Zufall als gestalterische Variationen zu nutzen
-
----
 
 ## Das Projekt Schritt für Schritt
 
@@ -96,7 +96,6 @@ function setup() {
 }
 ```
 </details>
-
 
 ### Ausschnitt 2: Offscreen-Canvas (MiniCanvas)
 
@@ -346,8 +345,6 @@ function setup() {
 }
 ```
 </details>
-
----
 
 ## Fazit & Ausblick
 
