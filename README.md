@@ -1,33 +1,37 @@
 # Bildfragmente & Blend Mode 
+*[Projektarbeit WiSe25/26 - Karina Koval]*
 
 ## Einführung
 
-### Benötigte Vorkenntnisse
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">### Benötigte Vorkenntnisse:</h4>
+    </div>
 
 Dieses Tutorial baut auf Inhalten auf, die im Kurs bereits behandelt wurden. Hilfreich sind insbesondere:
 
-    <div class="panel-body">
+   <div class="panel-body">
 <span class="label label-warning">empfohlen</span>
 <ul class="list-group">
   <li class="list-group-item list-group-item-warning">
-    <a href="../../01_Zeichenbefehle.ipynb">Zeichenbefehle</a>
-    <a href="../../02_Kontur_Fuellung_Farben.ipynb">Kontur/Fuellung/Farben</a>
+    <a href="./01_Zeichenbefehle.ipynb">Zeichenbefehle</a>
+    <a href="./02_Kontur_Fuellung_Farben.ipynb">Kontur/Fuellung/Farben</a>
   </li>
   <li class="list-group-item list-group-item-warning">
-    <a href="../../03_Basics Datentypen und Variablen.ipynb">Datentypen</a>
-    <a href="../../07_Basics Schleifen.ipynb">for/while</a>
+    <a href="./03_Basics Datentypen und Variablen.ipynb">Datentypen</a>
+    <a href="./04_Basics Bedingte Anweisungen.ipynb">if/else</a>
+    <a href="./07_Basics Schleifen.ipynb">for/while</a>
   </li>
-  <li class="list-group-item list-group-item-warning">
+</ul>
+<span class="label label-info">optional</span>
+<ul class="list-group">
+  <li class="list-group-item list-group-item-info">
     <a href="../../09_Basics Arrays.ipynb">Arrays</a>
   </li>
 </ul>
         </div>
     </div>
 </div>
-
-- **Schleifen**
-- **Arrays**
-- **Tipps und Tricks**
 
 Zur Vertiefung der hier genutzten **Blend Modes** empfiehlt sich außerdem ein Blick in die offizielle Referenz:
 - https://p5js.org/reference/p5/blendMode/
